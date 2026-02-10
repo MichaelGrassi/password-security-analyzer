@@ -1,12 +1,24 @@
 import tkinter as tk
+import re
 
 def analyze_password():
     pwd = entry.get()
     length = len(pwd)
 
-    if length < 8:
+    has_number = bool(re.search(r"\d", pwd))
+    has_symbol = bool(re.search(r"[!@#$%^&*(),.?\":{}|<>]", pwd))
+
+    score = 0
+    if length >= 8:
+        score += 1
+    if has_number:
+        score += 1
+    if has_symbol:
+        score += 1
+
+    if score <= 1:
         strength = "Weak"
-    elif length < 12:
+    elif score == 2:
         strength = "Medium"
     else:
         strength = "Strong"
